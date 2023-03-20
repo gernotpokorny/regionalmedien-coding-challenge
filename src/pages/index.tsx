@@ -4,15 +4,11 @@ import Head from 'next/head'
 import { WheaterWidget } from '../components/WheaterWidget';
 
 // types
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { WheaterData } from '../components/WheaterWidget';
 import { ResponseWheaterData } from '@/types';
 
-interface HomeProps {
-	wheaterData: WheaterData[] | null;
-}
-
-const Home: React.FC<HomeProps> = ({
+const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 	wheaterData
 }) => {
 	return (
@@ -27,6 +23,10 @@ const Home: React.FC<HomeProps> = ({
 			{!wheaterData && <p>Weather data could not be retrieved.</p>}
 		</>
 	)
+}
+
+interface HomeProps {
+	wheaterData: WheaterData[] | null;
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {

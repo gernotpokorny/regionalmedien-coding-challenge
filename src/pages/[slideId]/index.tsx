@@ -9,16 +9,12 @@ import { WheaterWidget } from '@/components/WheaterWidget';
 import { formatDate } from '@/shared/utils/formattingUtils'
 
 // types
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { WheaterData } from '@/components/WheaterWidget';
 import { ResponseWheaterData } from '@/types';
+import { ParsedUrlQuery } from 'querystring';
 
-interface DailyPreviewProps {
-	wheaterData: WheaterData[] | null;
-	initialSlide: number;
-}
-
-const DailyPreview: React.FC<DailyPreviewProps> = ({
+const DailyPreview: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 	wheaterData,
 	initialSlide,
 }) => {
@@ -55,8 +51,27 @@ const DailyPreview: React.FC<DailyPreviewProps> = ({
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<DailyPreviewProps> = async (context) => {
-	const slideId = context!.params!.slideId;
+interface DailyPreviewProps {
+	wheaterData: WheaterData[] | null;
+	initialSlide: number;
+}
+
+interface Params extends ParsedUrlQuery {
+	slideId?: string;
+}
+
+export const getServerSideProps: GetServerSideProps<DailyPreviewProps> = async (context: GetServerSidePropsContext<Params>) => {
+	if (context.params === undefined) {
+		return {
+			notFound: true,
+		}
+	}
+	if (context.params.slideId === undefined) {
+		return {
+			notFound: true,
+		}
+	}
+	const slideId = context.params.slideId;
 
 	const API_KEY = 'c7a4e69b097cf32666aeda302c55d94e';
 	const LATITUDE = 48.210033;
