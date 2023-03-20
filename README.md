@@ -1,6 +1,8 @@
 # Regionalmedien Coding Challenge
 
-## Introduction
+## Description
+
+### Introduction
 
 Create a small, responsive weather web app based on the free API from openweathermap.
 
@@ -13,7 +15,7 @@ Must‘s for the technology:
 - Implement a SSR based solution
 - Provide us the solution in a git repo (gitlab, github, bitbucket)
 
-## Minimum functional requirements
+### Minimum functional requirements
 
 1. Display everything in metric units
 2. Display the location
@@ -24,14 +26,14 @@ Must‘s for the technology:
 7. Display the belonging weather icon
 8. The widget should be swipeable to get to the forecasts (either per day or per hour)
 
-## Optional functional requirements
+### Optional functional requirements
 
 1. Display the amount of rain in the last few hours
 2. Display the windspeed in km/h
 3. Display the wind gust
 4. Display the humidity in %
 
-## How do we test the project
+### How do we test the project
 
 1. Functional testing:
 We will check out the provided git project and based on the projects documentation we will build/run it.
@@ -48,9 +50,11 @@ We will review based on the used technology:
 
 ---
 
+## Solution
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Development
+### Development
 
 First, install the dependencies:
 
@@ -66,19 +70,19 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Production
+### Production
 
 https://regionalmedien-coding-challenge.vercel.app/
 
 With this link you can access this Weather App for example directly from your phone or tablet.
 
-## Tests
+### Tests
 
 The Tests can be run via `npm run test`.
 
-## Remarks
+### Remarks
 
-### General
+#### General
 
 The Coding Challenge description demands daily or hourly (I assume 1 hour) forecasts, but this is not possible with the free tier of the `openwheatermaps.com` API.
 
@@ -96,8 +100,12 @@ Furthermore the icons provided by `openwheatermaps.com` are only available in a 
 
 [1]: https://openweathermap.org/price
 
-### Dynamic routes
+#### SSR
 
-#### `[slideId]`
+The Coding Challenge description states it demands a SSR solution, that's why I implemented an SSR solution. SSG/ISR would be a more appropriate solution for the given task.
+
+#### Dynamic routes
+
+##### `[slideId]`
 
 This route was implemented in order to make specific daily forecasts directly accessible via this dynamic url. Unfortunately I found out later (as mentioned above), that the free tier doesn't support daily forecasts. You can still use this route to access specific slides directly. For example if there's a forecast available for the "Wednesday, 15th February 2023 at 21:00:00", then it can be accessed via `<url>/2023-02-15-21-00-00`.
