@@ -1,3 +1,53 @@
+# Regionalmedien Coding Challenge
+
+## Introduction
+
+Create a small, responsive weather web app based on the free API from openweathermap.
+
+The web app should only consist of a weather-widget and should be optimized for mobile devices.
+We do not need a Header, Footer or other flavoured stuff around the weather-widget.
+The whole application can be limited to one location.
+
+Must‘s for the technology:
+- Use a react based technology
+- Implement a SSR based solution
+- Provide us the solution in a git repo (gitlab, github, bitbucket)
+
+## Minimum functional requirements
+
+1. Display everything in metric units
+2. Display the location
+3. Display the min temperature
+4. Display the max temperature
+5. Display the “feels like“ temperature
+6. Display the date and time when the weather infos were tracked
+7. Display the belonging weather icon
+8. The widget should be swipeable to get to the forecasts (either per day or per hour)
+
+## Optional functional requirements
+
+1. Display the amount of rain in the last few hours
+2. Display the windspeed in km/h
+3. Display the wind gust
+4. Display the humidity in %
+
+## How do we test the project
+
+1. Functional testing:
+We will check out the provided git project and based on the projects documentation we will build/run it.
+We will open it in several different local browsers an have a look at the result
+2. Run tests
+Based on the projects documentation we will run the tests and have a look at the output.
+3. Technical review
+We will review based on the used technology:
+- Filestructure
+- Structure of the tests
+- Code quality based on common metrics
+- Used frameworks and libraries
+- Architecture of the we-app itself
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Development
