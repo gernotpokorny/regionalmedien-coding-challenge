@@ -7,6 +7,7 @@ import { WheaterWidget } from '../components/WheaterWidget';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { WheaterData } from '../components/WheaterWidget';
 import { ResponseWheaterData } from '@/types';
+import { AsyncReturnType } from 'type-fest';
 
 const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 	wheaterData
@@ -35,30 +36,44 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 	const LONGITUDE = 16.363449;
 	const UNITS = 'metric';
 	const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${LATITUDE}&lon=${LONGITUDE}&appid=${API_KEY}&cnt=5&units=${UNITS}&lang=de&cnt=5`;
-	const response = await fetch(URL);
-	return {
-		props: {
-			wheaterData: await (async () => {
-				if (response.ok) {
-					const data: ResponseWheaterData = await response.json();
-					const wheaterData: WheaterData[] = data.list.map((record) => {
-						return {
-							location: 'Wien',
-							minTemperature: record.main.temp_min,
-							maxTemperature: record.main.temp_max,
-							feelsLikeTemperature: record.main.feels_like,
-							trackingDate: new Date(record.dt_txt).getTime(),
-							weather: record.weather[0],
-						};
-					});
-					return wheaterData;
-				}
-				else {
-					return null;
-				}
-			})(),
-		},
-	};
+	let response: AsyncReturnType<typeof fetch>;
+	try {
+		response = await fetch(URL);
+	} catch (error) {
+		return {
+			notFound: true,
+		};
+	}
+	if (response.ok) {
+		return {
+			props: {
+				wheaterData: await (async () => {
+					if (response.ok) {
+						const data: ResponseWheaterData = await response.json();
+						const wheaterData: WheaterData[] = data.list.map((record) => {
+							return {
+								location: 'Wien',
+								minTemperature: record.main.temp_min,
+								maxTemperature: record.main.temp_max,
+								feelsLikeTemperature: record.main.feels_like,
+								trackingDate: new Date(record.dt_txt).getTime(),
+								weather: record.weather[0],
+							};
+						});
+						return wheaterData;
+					}
+					else {
+						return null;
+					}
+				})(),
+			},
+		};
+	}
+	else {
+		return {
+			notFound: true,
+		};
+	}
 };
 
 export default Home;

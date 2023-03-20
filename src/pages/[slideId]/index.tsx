@@ -13,6 +13,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { WheaterData } from '@/components/WheaterWidget';
 import { ResponseWheaterData } from '@/types';
 import { ParsedUrlQuery } from 'querystring';
+import { AsyncReturnType } from 'type-fest';
 
 const DailyPreview: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 	wheaterData,
@@ -78,7 +79,14 @@ export const getServerSideProps: GetServerSideProps<DailyPreviewProps> = async (
 	const LONGITUDE = 16.363449;
 	const UNITS = 'metric';
 	const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${LATITUDE}&lon=${LONGITUDE}&appid=${API_KEY}&cnt=5&units=${UNITS}&lang=de&cnt=5`;
-	const response = await fetch(URL);
+	let response: AsyncReturnType<typeof fetch>;
+	try {
+		response = await fetch(URL);
+	} catch (error) {
+		return {
+			notFound: true,
+		};
+	}
 	if (response.ok) {
 		const data: ResponseWheaterData = await response.json();
 		const wheaterData: WheaterData[] = data.list.map((record) => {
